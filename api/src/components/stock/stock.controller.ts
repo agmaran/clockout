@@ -7,10 +7,11 @@ export const getDailyStockPrices = async (req: Request, res: Response, next: Nex
     try {
         const { error } = GetDailyStockPricesSchema.validate(req.params);
         if (error) {
-            next(new Error(error.details[0].message));
+            const customError = new Error(error.details[0].message) as CustomError;
+            customError.status = 400;
+            next(customError);
         }
         response = await stockService.getDailyStockPrices(req.params);
-        console.log("Came here");
     } catch (err) {
         next(new Error('Error getting daily stock prices'));
     }

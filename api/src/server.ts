@@ -1,10 +1,12 @@
 import * as dotenv from 'dotenv';
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import stockRouter from './components/stock/stock.router';
+import { errorHandler } from './middlewares';
 dotenv.config();
 
+// Global interface for errors
 declare global {
     interface CustomError extends Error {
         status?: number,
@@ -14,24 +16,23 @@ declare global {
 async function initServer() {
     try {
         const app = express();
+
+        // Server config
         app.use(cors<cors.CorsRequest>({
             origin: '*',
             credentials: true,
         }));
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
+        
+        // API routes
         app.use('/api', stockRouter);
         
         // Error handler middleware
-        app.use((error: CustomError, req: Request, res: Response, next: NextFunction) => {
-            if (error.status) {
-                res.status(error.status).json({ message: error.message });
-            }
-            res.status(500).json({ message: error.message });
-        });
+        app.use(errorHandler);
         
         const PORT = Number(process.env.PORT);
-        app.listen(8080, () => console.log(`Server started on http://localhost:${PORT}`));
+        app.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`));
     } catch (err) {
         console.log(err);
         process.exit(1);
