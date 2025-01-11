@@ -2,22 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 
 export interface ListItemProps {
-  symbol: string;
-  name: string;
-  price: number;
-  change: number;
+  T: string;
+  c: number;
+  h: number;
+  l: number;
+  n: number;
+  o: number;
+  t: number;
+  v: number;
+  vw: number;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ symbol, name, price, change }) => {
+const ListItem: React.FC<ListItemProps> = ({ T, c, h, l, n, o, t, v, vw }) => {
   return (
     <Container>
         <ColumnContainer>
-          <Symbol>{symbol}</Symbol>
-          <Name>{name}</Name>
+          <Symbol>{T}</Symbol>
         </ColumnContainer>
         <RightColumnContainer>
-          <Symbol>${price}</Symbol>
-          <Text>{change}%</Text>
+          <Symbol>${c}</Symbol>
+          <Text>{(c - o) * o / 100}%</Text>
         </RightColumnContainer>
     </Container>
   );

@@ -5,18 +5,31 @@ import BuyingPower from './components/BuyingPower';
 import Watchlist from './components/list/Watchlist';
 import TopMovers from './components/list/TopMovers';
 import { ListItemProps } from './components/list/Item';
+import { getDailyStockPrices } from './api/stock';
 
-const watchlistItems: ListItemProps[] = [
-  { symbol: 'SPTF', name: 'Spotify', price: 102.45, change: 0.48 },
-];
+function getYesterday(): string {
+  const today = new Date();
+  const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000).toLocaleDateString('en-CA');
+  return yesterday;
+}
 
 const App: React.FC = () => {
+  const [stockData, setStockData] = React.useState<ListItemProps[]>();
+  React.useEffect(() => {
+    const getStockData = async () => {
+      const yesterday = getYesterday();
+      const response = await getDailyStockPrices(yesterday);
+      console.log(response);
+      setStockData(response ?? []);
+    };
+    getStockData();
+  }, []);
   return (
     <MainContainer>
       <Header totalInvesting={12535} change={0.48} />
       <BuyingPower buyingPower={840.5} />
-      <Watchlist items={watchlistItems} />
-      <TopMovers trending={watchlistItems} topLosers={watchlistItems} topGainers={watchlistItems}  />
+      {stockData && <Watchlist items={stockData} />}
+      {stockData && <TopMovers trending={stockData} topLosers={stockData} topGainers={stockData}  />}
     </MainContainer>
   );
 };
