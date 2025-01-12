@@ -12,7 +12,7 @@ const WatchList: React.FC<WatchListProps> = ({ items }) => {
       <Title>Watchlist</Title>
       <ListContainer>
         {items.map(item => (
-          <WatchListItem key={item.T} {...item} />
+          <WatchListItem key={item.symbol} {...item} />
         ))}
       </ListContainer>
     </Container>

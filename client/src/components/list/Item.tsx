@@ -2,26 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 
 export interface ListItemProps {
-  T: string;
-  c: number;
-  h: number;
-  l: number;
-  n: number;
-  o: number;
-  t: number;
-  v: number;
-  vw: number;
+  symbol: string;
+  price: number;
+  priceDifference: number;
+  differencePercentage: number;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ T, c, h, l, n, o, t, v, vw }) => {
+const ListItem: React.FC<ListItemProps> = ({ symbol, price, priceDifference, differencePercentage }) => {
   return (
     <Container>
         <ColumnContainer>
-          <Symbol>{T}</Symbol>
+          <Symbol>{symbol}</Symbol>
         </ColumnContainer>
         <RightColumnContainer>
-          <Symbol>${c}</Symbol>
-          <Text>{(c - o) * o / 100}%</Text>
+          <Symbol>${price}</Symbol>
+          <Container>
+            <Text>${priceDifference}</Text>
+            <Text>({differencePercentage}%)</Text>
+          </Container>
         </RightColumnContainer>
     </Container>
   );
@@ -58,12 +56,6 @@ const Symbol = styled.div`
   color: white;
   font-size: 18px;
   font-weight: 600;
-`;
-
-const Name = styled.div`
-  color: #646464;
-  font-size: 14px;
-  font-weight: 400;
 `;
 
 export default ListItem;

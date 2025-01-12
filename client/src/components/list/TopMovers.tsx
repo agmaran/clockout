@@ -41,18 +41,18 @@ const TopMovers: React.FC<TopMoversProps> = ({ trending, topGainers, topLosers }
         </Button>
       </RowContainer>
       {activeTab === 'trending' && <ListContainer>
-          {trending.map((mover) => (
-            <ListItem key={mover.T} {...mover} />
+          {trending?.map((mover) => (
+            <ListItem key={mover.symbol} {...mover} />
           ))}
         </ListContainer>}
       {activeTab === 'topGainers' && <ListContainer>
-          {topGainers.map((mover) => (
-            <ListItem key={mover.T} {...mover} />
+          {topGainers?.map((mover) => (
+            <ListItem key={mover.symbol} {...mover} />
           ))}
         </ListContainer>}
       {activeTab === 'topLosers' && <ListContainer>
-          {topLosers.map((mover) => (
-            <ListItem key={mover.T} {...mover} />
+          {topLosers?.map((mover) => (
+            <ListItem key={mover.symbol} {...mover} />
           ))}
         </ListContainer>}  
     </Container>
