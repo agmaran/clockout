@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import Header from './Header';
 import BuyingPower from './BuyingPower';
@@ -34,22 +33,13 @@ const App: React.FC = () => {
   }, [data]);
 
   return (
-    <MainContainer>
-        <Header totalInvesting={12535} change={0.48} />
-        <BuyingPower buyingPower={840.5} />
-        {stockData && <WatchList items={stockData.watchListData} />}
-        {stockData && <TopMovers trending={stockData.trendingData} topLosers={stockData.losersData} topGainers={stockData.gainersData}  />}
-    </MainContainer>
+    <div className='flex flex-col w-full h-full bg-gray-950'>
+      <Header totalInvesting={12535} items={stockData?.watchListData} />
+      <BuyingPower buyingPower={840.5} />
+      {stockData && <WatchList items={stockData.watchListData} />}
+      {stockData && <TopMovers trending={stockData.trendingData} topLosers={stockData.losersData} topGainers={stockData.gainersData}  />}
+    </div>
   );
 };
-
-const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 70px 0px;
-  width: 100%;
-  background-color: #141414;
-  height: 100%;
-`;
 
 export default App;
