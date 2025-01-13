@@ -4,9 +4,10 @@ import {ListItemProps} from './list/Item';
 interface HeaderProps {
   totalInvesting: number;
   items: ListItemProps[] | undefined;
+  isFetching: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ totalInvesting, items }) => {
+const Header: React.FC<HeaderProps> = ({ totalInvesting, items, isFetching }) => {
   const [ profit, setProfit ] = React.useState<number>();
   const [ profitPercentage, setProfitPercentage] = React.useState<number>();
 
@@ -27,8 +28,8 @@ const Header: React.FC<HeaderProps> = ({ totalInvesting, items }) => {
     <div className='flex flex-col bg-gray-950 p-10 md:p-20'>
       <div className='text-gray-500 font-medium text-base'>TOTAL INVESTING</div>
       <div className='text-gray-100 font-semibold text-5xl my-2'>${totalInvesting.toFixed(2)}</div>
-      {profit && <div className={`flex flex-row space-x-1 font-medium text-base ${profit > 0 ? 'text-green-700' : 'text-red-700'}`}>
-        <div className=''>${profit.toFixed(2)}</div>
+      {isFetching ? <div className='animate-bounce my-2 h-6 w-36 bg-gray-900 rounded-full'></div> : <div className={`flex flex-row space-x-1 font-medium text-base ${profit && profit > 0 ? 'text-green-700' : 'text-red-700'}`}>
+        <div className=''>${profit?.toFixed(2)}</div>
         <div>({profitPercentage?.toFixed(2)})%</div>
       </div>}
     </div>
