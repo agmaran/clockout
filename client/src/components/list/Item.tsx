@@ -1,4 +1,6 @@
 import React from 'react';
+import TrendingUpIcon from '../icons/TrendingUp';
+import TrendingDownIcon from '../icons/TrendingDown';
 
 export interface ListItemProps {
   symbol: string;
@@ -9,8 +11,10 @@ export interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ symbol, price, priceDifference, differencePercentage }) => {
   return (
-    <div className='flex flex-row justify-between mb-10'>
+    <div className='flex flex-row justify-between py-10'>
       <div className='text-gray-100 font-normal text-xl'>{symbol}</div>
+      {priceDifference > 0 && <TrendingUpIcon className='h-13 w-10' />}
+      {priceDifference < 0 && <TrendingDownIcon className='h-13 w-10' />}
       <div className='flex flex-col'>
         <div className='text-gray-100 font-normal text-xl place-self-end'>
           <div>${price}</div>
