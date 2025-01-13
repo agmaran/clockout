@@ -21,7 +21,7 @@ function getLastTradeDay(): string {
 
 const App: React.FC = () => {
   const [stockData, setStockData] = React.useState<DailyStockPricesData | undefined> (undefined);
-  const { data } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ['getDailyStockPrices'],
     queryFn: () => getDailyStockPrices(getLastTradeDay()),
   })
@@ -34,10 +34,10 @@ const App: React.FC = () => {
 
   return (
     <div className='flex flex-col w-full h-full bg-gray-950'>
-      <Header totalInvesting={12535} items={stockData?.watchListData} />
+      <Header totalInvesting={12535} items={stockData?.watchListData} isFetching={isFetching} />
       <BuyingPower buyingPower={840.5} />
-      {stockData && <WatchList items={stockData.watchListData} />}
-      {stockData && <TopMovers trending={stockData.trendingData} topLosers={stockData.losersData} topGainers={stockData.gainersData}  />}
+      <WatchList items={stockData?.watchListData} isFetching={isFetching} />
+      <TopMovers trending={stockData?.trendingData} topLosers={stockData?.losersData} topGainers={stockData?.gainersData} isFetching={isFetching}  />
     </div>
   );
 };

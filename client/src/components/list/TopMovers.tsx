@@ -2,14 +2,15 @@ import React from 'react';
 import ListItem, { ListItemProps } from './Item';
 
 interface TopMoversProps {
-    trending: ListItemProps[];
-    topGainers: ListItemProps[];
-    topLosers: ListItemProps[];
+    trending?: ListItemProps[];
+    topGainers?: ListItemProps[];
+    topLosers?: ListItemProps[];
+    isFetching: boolean;
   }
 
 type TabName = 'trending' | 'topGainers' | 'topLosers';
 
-const TopMovers: React.FC<TopMoversProps> = ({ trending, topGainers, topLosers }) => {
+const TopMovers: React.FC<TopMoversProps> = ({ trending, topGainers, topLosers, isFetching }) => {
   const [activeTab, setActiveTab] = React.useState<TabName>('trending');
 
   const handleTabClick = (tab: TabName) => {
@@ -39,7 +40,13 @@ const TopMovers: React.FC<TopMoversProps> = ({ trending, topGainers, topLosers }
           Top Losers
         </div>
       </div>
-      {activeTab === 'trending' && <div className='flex flex-col'>
+      {isFetching ? <div className="flex flex-col ...">
+        <div className='animate-bounce my-2 h-12 w-full bg-gray-900 rounded-full'></div>
+        <div className='animate-bounce my-2 h-12 w-full bg-gray-900 rounded-full'></div>
+        <div className='animate-bounce my-2 h-12 w-full bg-gray-900 rounded-full'></div>
+        <div className='animate-bounce my-2 h-12 w-full bg-gray-900 rounded-full'></div>
+        <div className='animate-bounce my-2 h-12 w-full bg-gray-900 rounded-full'></div>
+      </div> : <div>{activeTab === 'trending' && <div className='flex flex-col'>
           {trending?.map((mover) => (
             <ListItem key={mover.symbol} {...mover} />
           ))}
@@ -53,7 +60,7 @@ const TopMovers: React.FC<TopMoversProps> = ({ trending, topGainers, topLosers }
           {topLosers?.map((mover) => (
             <ListItem key={mover.symbol} {...mover} />
           ))}
-        </div>}  
+        </div>}</div>}  
     </div>
   );
 };
