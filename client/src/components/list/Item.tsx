@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 export interface ListItemProps {
   symbol: string;
@@ -10,52 +9,19 @@ export interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ symbol, price, priceDifference, differencePercentage }) => {
   return (
-    <Container>
-        <ColumnContainer>
-          <Symbol>{symbol}</Symbol>
-        </ColumnContainer>
-        <RightColumnContainer>
-          <Symbol>${price}</Symbol>
-          <Container>
-            <Text>${priceDifference}</Text>
-            <Text>({differencePercentage}%)</Text>
-          </Container>
-        </RightColumnContainer>
-    </Container>
+    <div className='flex flex-row justify-between mb-10'>
+      <div className='text-gray-100 font-normal text-xl'>{symbol}</div>
+      <div className='flex flex-col'>
+        <div className='text-gray-100 font-normal text-xl place-self-end'>
+          <div>${price}</div>
+        </div>
+        <div className={`flex flex-row space-x-1 font-medium text-base ${priceDifference > 0 ? 'text-green-700' : 'text-red-700'}`}>
+          <div>${priceDifference.toFixed(2)}</div>
+          <div>({differencePercentage.toFixed(2)}%)</div>
+        </div>
+      </div>
+    </div>
   );
 };
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Text = styled.div`
-  font-size: 16px;
-  color: #1d7a34;
-  font-weight: 500;
-`;
-
-const ColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
-
-const RightColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: flex-end;
-`;
-
-const Symbol = styled.div`
-  color: white;
-  font-size: 18px;
-  font-weight: 600;
-`;
 
 export default ListItem;

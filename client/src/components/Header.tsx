@@ -1,62 +1,38 @@
 import React from 'react';
-import styled from 'styled-components';
+import {ListItemProps} from './list/Item';
 
 interface HeaderProps {
   totalInvesting: number;
-  change: number;
+  items: ListItemProps[] | undefined;
 }
 
-const Header: React.FC<HeaderProps> = ({ totalInvesting, change }) => {
+const Header: React.FC<HeaderProps> = ({ totalInvesting, items }) => {
+  const [ profit, setProfit ] = React.useState<number>();
+  const [ profitPercentage, setProfitPercentage] = React.useState<number>();
+
+  React.useEffect(() => {
+    let profit = 0;
+    let profitPercentage = 0;
+    if (items) {
+      for (const item of items) {
+        profit += item.priceDifference;
+        profitPercentage += item.differencePercentage;
+      }
+      setProfit(profit);
+      setProfitPercentage(profitPercentage);
+    }
+  }, [items]);
+
   return (
-    <Container>
-      <Subtitle>TOTAL INVESTING</Subtitle>
-      <RowContainer>
-        <Title>${totalInvesting}</Title>
-        <Text>{change}%</Text>
-      </RowContainer>
-      <Line />
-    </Container>
+    <div className='flex flex-col bg-gray-950 p-10 md:p-20'>
+      <div className='text-gray-500 font-medium text-base'>TOTAL INVESTING</div>
+      <div className='text-gray-100 font-semibold text-5xl my-2'>${totalInvesting.toFixed(2)}</div>
+      {profit && <div className={`flex flex-row space-x-1 font-medium text-base ${profit > 0 ? 'text-green-700' : 'text-red-700'}`}>
+        <div className=''>${profit.toFixed(2)}</div>
+        <div>({profitPercentage?.toFixed(2)})%</div>
+      </div>}
+    </div>
   );
 };
-
-const Container = styled.div`
-  flex: auto;
-  flex-direction: column;
-  gap: 10px 0px;
-  padding: 0px 20px;
-`;
-
-const RowContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 10px 10px;
-  align-items: center;
-`;
-
-const Subtitle = styled.div`
-  font-size: 15px;
-  color: #646464;
-  font-weight: 700;
-`;
-
-const Title = styled.div`
-  font-size: 40px;
-  color: white;
-  font-weight: 700;
-`;
-
-const Line = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: #272727;
-  margin: 15px 0px;
-`;
-
-const Text = styled.div`
-  font-size: 16px;
-  color: #1d7a34;
-  font-weight: 500;
-`;
 
 export default Header;

@@ -1,42 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
 import WatchListItem, { ListItemProps } from './Item';
 
 interface WatchListProps {
-  items: ListItemProps[];
+  items: ListItemProps[] | undefined;
 }
 
 const WatchList: React.FC<WatchListProps> = ({ items }) => {
   return (
-    <Container>
-      <Title>Watchlist</Title>
-      <ListContainer>
-        {items.map(item => (
+    <div className='bg-gray-900 p-10 md:p-20'>
+      <div className='text-gray-100 font-medium text-2xl mb-10'>WatchList</div>
+      <div className='flex flex-col'>
+        {items?.map(item => (
           <WatchListItem key={item.symbol} {...item} />
         ))}
-      </ListContainer>
-    </Container>
+      </div>
+    </div>
   );
 };
-
-const Container = styled.div`
-  padding: 30px 20px;
-  background-color: #242424;
-  margin-top: 10px;
-`;
-
-const Title = styled.div`
-  font-size: 22px;
-  color: white;
-  font-weight: 500;
-`;
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 40px;
-  margin-top: 35px;
-`;
 
 export default WatchList;

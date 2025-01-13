@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import ListItem, { ListItemProps } from './Item';
 
 interface TopMoversProps {
@@ -18,87 +17,45 @@ const TopMovers: React.FC<TopMoversProps> = ({ trending, topGainers, topLosers }
   };
 
   return (
-    <Container>
-      <Title>Top Movers</Title>
-      <RowContainer>
-        <Button
-          className={activeTab === 'trending' ? 'active' : ''}
+    <div className='bg-gray-950 p-10 md:p-20'>
+      <div className='text-gray-100 font-medium text-2xl mb-10'>Top Movers</div>
+      <div className='flex flex-row mb-10'>
+        <div
+          className={`${activeTab === 'trending' ? 'bg-gray-900 rounded-full' : ''} text-gray-500 font-medium text-base flex-1 text-center p-3 cursor-pointer`}
           onClick={() => handleTabClick('trending')}
         >
           Trending
-        </Button>
-        <Button
-          className={activeTab === 'topGainers' ? 'active' : ''}
+        </div>
+        <div
+          className={`${activeTab === 'topGainers' ? 'bg-gray-900 rounded-full' : ''} text-gray-500 font-medium text-base flex-1 text-center p-3 cursor-pointer`}
           onClick={() => handleTabClick('topGainers')}
         >
           Top Gainers
-        </Button>
-        <Button
-          className={activeTab === 'topLosers' ? 'active' : ''}
+        </div>
+        <div
+          className={`${activeTab === 'topLosers' ? 'bg-gray-900 rounded-full' : ''} text-gray-500 font-medium text-base flex-1 text-center p-3 cursor-pointer`}
           onClick={() => handleTabClick('topLosers')}
         >
           Top Losers
-        </Button>
-      </RowContainer>
-      {activeTab === 'trending' && <ListContainer>
+        </div>
+      </div>
+      {activeTab === 'trending' && <div className='flex flex-col'>
           {trending?.map((mover) => (
             <ListItem key={mover.symbol} {...mover} />
           ))}
-        </ListContainer>}
-      {activeTab === 'topGainers' && <ListContainer>
+        </div>}
+      {activeTab === 'topGainers' && <div className='flex flex-col'>
           {topGainers?.map((mover) => (
             <ListItem key={mover.symbol} {...mover} />
           ))}
-        </ListContainer>}
-      {activeTab === 'topLosers' && <ListContainer>
+        </div>}
+      {activeTab === 'topLosers' && <div className='flex flex-col'>
           {topLosers?.map((mover) => (
             <ListItem key={mover.symbol} {...mover} />
           ))}
-        </ListContainer>}  
-    </Container>
+        </div>}  
+    </div>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 30px 20px;
-  background-color: #141414;
-  margin-top: 10px;
-`;
-
-const Title = styled.div`
-  font-size: 22px;
-  color: white;
-  font-weight: 500;
-`;
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 40px;
-  margin-top: 35px;
-`;
-
-const Button = styled.button`
-  border-radius: 100px;
-  background-color: #242424;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1px 30px;
-  height: 40px;
-  font-size: 20px;
-  color: white;
-  font-weight: 400;
-`;
-
-const RowContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-around;
-`;
 
 export default TopMovers;
