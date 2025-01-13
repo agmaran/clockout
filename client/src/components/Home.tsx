@@ -30,10 +30,10 @@ const App: React.FC = () => {
     if (data) {
       setStockData(data);
       localStorage.setItem('stockData', JSON.stringify(data));
-    } else {
+    } else if (!isFetching) {
       setStockData(JSON.parse(localStorage.getItem('stockData') ?? ''));
     }
-  }, [data]);
+  }, [data, isFetching]);
 
   return (
     <div className='flex flex-col w-full h-full bg-gray-950'>
