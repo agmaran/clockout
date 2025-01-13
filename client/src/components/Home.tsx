@@ -29,6 +29,9 @@ const App: React.FC = () => {
   React.useEffect(() => {
     if (data) {
       setStockData(data);
+      localStorage.setItem('stockData', JSON.stringify(data));
+    } else {
+      setStockData(JSON.parse(localStorage.getItem('stockData') ?? ''));
     }
   }, [data]);
 
